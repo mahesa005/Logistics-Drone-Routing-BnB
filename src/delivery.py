@@ -2,12 +2,12 @@ import pandas as pd
 import os
 
 # ── Configuration (user inputs) ──────────────────────────────────────────────
-VAN_SPEED_KMH   = int(input("Enter van speed (km/h, default 30): ") or 30)
-DRONE_SPEED_KMH = int(input("Enter drone speed (km/h, default 50): ") or 50)
+VAN_SPEED_KMH   = int(input("Enter van speed (km/h, default 40): ") or 40)
+DRONE_SPEED_KMH = int(input("Enter drone speed (km/h, default 60): ") or 60)
 SERVICE_TIME    = float(input("Enter service time (minutes, default 0.5): ") or 0.5)
-DRONE_CAPACITY  = int(input("Enter drone capacity (deliveries per drone, default 3): ") or 3)
-NUM_DRONES      = int(input("Enter number of drones available (default 3): ") or 3)
-DRONE_MAX_DIST  = float(input("Enter drone max distance (km, default 3.0): ") or 3.0)
+DRONE_CAPACITY  = int(input("Enter drone capacity (deliveries per drone, default 2): ") or 2)
+NUM_DRONES      = int(input("Enter number of drones available (default 2): ") or 2)
+DRONE_MAX_DIST  = float(input("Enter drone max distance (km, default 2.0): ") or 2.0)
 MAX_HOUSES      = int(input("Enter max houses to read (default 8): ") or 8)
 
 # ── Utility: load only first MAX_HOUSES sites ─────────────────────────────────
@@ -76,12 +76,12 @@ def search(van_pos, delivered, current_time, plan, van_time, drone_time, locatio
         return
     # prune if worse
     if current_time >= best_time:
-        print(f"Pruned: current_time={current_time:.2f} >= best_time={best_time:.2f}")
+        # print(f"Pruned: current_time={current_time:.2f} >= best_time={best_time:.2f}")
         return
     # van branch
     for i in range(1, n):
         if i not in delivered:
-            print(f"Explore Van→{locations[i]} at t={current_time:.2f}")
+            # print(f"Explore Van→{locations[i]} at t={current_time:.2f}")
             t = van_time[van_pos, i] + SERVICE_TIME
             search(i, delivered | {i}, current_time + t,
                    plan + [f"Van→{locations[i]}"], van_time, drone_time, locations)
@@ -92,7 +92,7 @@ def search(van_pos, delivered, current_time, plan, van_time, drone_time, locatio
         # limit by total drone capacity
         max_assign = DRONE_CAPACITY * NUM_DRONES
         assigned = nearby[:max_assign]
-        print(f"Explore DroneBatch→{assigned} at t={current_time:.2f}")
+        # print(f"Explore DroneBatch→{assigned} at t={current_time:.2f}")
         # flight time is max distance + service time
         t_flight = max(drone_time[van_pos, i] for i in assigned) + SERVICE_TIME
         new_del = delivered | set(assigned)
