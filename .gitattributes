@@ -1,18 +1,18 @@
-# Ignore virtual environments
-venv/ linguist-vendored
-.venv/ linguist-vendored
-env/ linguist-vendored
+# Ignore virtual environments from language stats
+venv/** linguist-vendored
+.venv/** linguist-vendored
+env/** linguist-vendored
 
 # Ignore build or distribution folders
-build/ linguist-vendored
-dist/ linguist-vendored
-__pycache__/ linguist-vendored
+build/** linguist-vendored
+dist/** linguist-vendored
+__pycache__/** linguist-vendored
 
-# Ignore other generated content
+# Ignore generated content
 *.pyc linguist-generated
 *.pyd linguist-generated
 *.so linguist-generated
-*.ipynb_checkpoints/ linguist-generated
+.ipynb_checkpoints/** linguist-generated
 
 # Ignore compiled code
 *.o linguist-generated
